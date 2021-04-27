@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="settings.js"></script>
+    <script type="text/javascript" src="osql.js"></script>
+
+    <script>
+        function button1Pressed() {
+            execSelect();
+        }
+
+        async function execSelect() {
+            var userid = document.getElementById('tf1').value;
+            var tweet = document.getElementById('tf2').value;
+
+            var sql = 'insert into Tweets (name, tweet, time) values("%USERID%", "%TWEET%", now());';
+            sql = sql.replace("%USERID%", userid);
+            sql = sql.replace("%TWEET%", tweet);
+            console.log(sql);
+            var objects = await osql.connect(sql);
+            console.log(objects);
+        }
+    </script>
+
+</head>
+
+<body>
+    <h1>Tweets</h1>
+    <br>
+    ログイン名:<input id="tf1" value="名無し" type="textfield">
+    <br>
+    tweet:<input id="tf2" type="textfield">
+    <button onclick="button1Pressed()">tweet</button>
+    <br>
+    <p id="result"></p>
+</body>
+
+</html>
