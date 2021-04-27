@@ -13,7 +13,11 @@
         function button1Pressed() {
             execSelect();
         }
-
+        window.onload = function () {
+            window.setInterval(function () {
+                button1Pressed();
+            }, 2000);
+        }
         async function execSelect() {
             var sql = 'select * from Tweets order by time desc limit 20';
             var objects = await osql.connect(sql);
@@ -26,14 +30,44 @@
             }
             html = html + '</ul>';
             document.getElementById('result').innerHTML = html;
+
+            
+
+
+
+
+
         }
+        function button2Pressed() {
+                execSelect2();
+            }
+
+            async function execSelect2() {
+                var userid = document.getElementById('tf1').value;
+                var tweet = document.getElementById('tf2').value;
+
+                var sql = 'insert into Tweets (name, tweet, time) values("%USERID%", "%TWEET%", now());';
+                sql = sql.replace("%USERID%", userid);
+                sql = sql.replace("%TWEET%", tweet);
+                console.log(sql);
+                var objects = await osql.connect(sql);
+                console.log(objects);
+            }
+
+
+
     </script>
-ああ
+
 </head>
 
 <body>
     <h1>Tweets</h1>
-    <button onclick="button1Pressed()">X</button>
+    <br>
+    ログイン名:<input id="tf1" value="名無し" type="textfield">
+    <br>
+    tweet:<input id="tf2" type="textfield">
+    <button onclick="button2Pressed()">tweet</button>
+    
     <hr>
     <p id="result">xxxx</p>
 </body>
